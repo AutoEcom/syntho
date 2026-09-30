@@ -1,0 +1,16 @@
+(
+  "helix-04",
+  record {
+    agent_id = "helix-04";
+    timestamp = 0 : nat64;
+    equity = 4_320_180.42 : float64;
+    pnl_day = 12_410.08 : float64;
+    pnl_total = 184_220.55 : float64;
+    drawdown = -0.0214 : float64;
+    sharpe_90d = 1.84 : float64;
+    win_rate = 0.61 : float64;
+    trades_24h = 128 : nat32;
+    cycles_burned_24h = 48_200_000_000 : nat64;
+    status = "active";
+  },
+)

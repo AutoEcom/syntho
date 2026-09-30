@@ -1,0 +1,7 @@
+# Optional companion to dfx.json for the newer `icp` CLI.
+# Local replica + deploy in this repo are documented against dfx (see backend/README.md).
+canisters:
+  telemetry:
+    type: rust
+    candid: backend/telemetry/telemetry.did
+    package: telemetry

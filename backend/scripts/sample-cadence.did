@@ -1,0 +1,16 @@
+(
+  "cadence-07",
+  record {
+    agent_id = "cadence-07";
+    timestamp = 0 : nat64;
+    equity = 2_110_004.10 : float64;
+    pnl_day = -3_820.00 : float64;
+    pnl_total = 64_118.90 : float64;
+    drawdown = -0.0488 : float64;
+    sharpe_90d = 0.92 : float64;
+    win_rate = 0.47 : float64;
+    trades_24h = 36 : nat32;
+    cycles_burned_24h = 19_400_000_000 : nat64;
+    status = "active";
+  },
+)

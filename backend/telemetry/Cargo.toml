@@ -1,0 +1,14 @@
+[package]
+name = "telemetry"
+version = "0.1.0"
+edition = "2021"
+description = "Syntho portfolio telemetry canister — latest metrics, short history, public reads."
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+candid = "0.10"
+ic-cdk = "0.18"
+ic-stable-structures = "0.6"
+serde = { version = "1", features = ["derive"] }

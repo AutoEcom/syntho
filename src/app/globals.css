@@ -1,0 +1,377 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+ * Syntho design tokens
+ * Dark-only institutional theme. Primitives live in :root, Tailwind utilities
+ * are generated from the @theme blocks below.
+ * ------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: dark;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo,
+    monospace;
+
+  --radius: 0.625rem;
+
+  /* Brand primitives */
+  --syntho-bg: #0a0b0f;
+  --syntho-surface: #16181d;
+  --syntho-surface-2: #1c1f26;
+  --syntho-edge: #2a2d35;
+  --syntho-text: #e8eaed;
+  --syntho-text-dim: #9aa0a6;
+  --syntho-brand: #00d4c8;
+  --syntho-positive: #00c853;
+  --syntho-negative: #ff4d4f;
+  --syntho-gold: #c9a227;
+
+  /* shadcn/ui semantic mapping */
+  --background: var(--syntho-bg);
+  --foreground: var(--syntho-text);
+  --card: var(--syntho-surface);
+  --card-foreground: var(--syntho-text);
+  --popover: var(--syntho-surface-2);
+  --popover-foreground: var(--syntho-text);
+  --primary: var(--syntho-brand);
+  --primary-foreground: #04100f;
+  --secondary: var(--syntho-surface-2);
+  --secondary-foreground: var(--syntho-text);
+  --muted: var(--syntho-surface);
+  --muted-foreground: var(--syntho-text-dim);
+  --accent: var(--syntho-surface-2);
+  --accent-foreground: var(--syntho-text);
+  --destructive: var(--syntho-negative);
+  --border: var(--syntho-edge);
+  --input: var(--syntho-edge);
+  --ring: var(--syntho-brand);
+
+  --chart-1: #00d4c8;
+  --chart-2: #c9a227;
+  --chart-3: #5b8def;
+  --chart-4: #00c853;
+  --chart-5: #8f7fd1;
+
+  --sidebar: var(--syntho-surface);
+  --sidebar-foreground: var(--syntho-text);
+  --sidebar-primary: var(--syntho-brand);
+  --sidebar-primary-foreground: #04100f;
+  --sidebar-accent: var(--syntho-surface-2);
+  --sidebar-accent-foreground: var(--syntho-text);
+  --sidebar-border: var(--syntho-edge);
+  --sidebar-ring: var(--syntho-brand);
+}
+
+/* The theme is dark by design; `.dark` exists so shadcn `dark:` variants resolve. */
+.dark {
+  --background: var(--syntho-bg);
+  --foreground: var(--syntho-text);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@theme {
+  /* Brand-scale colors, usable as bg-surface, text-brand, border-edge, ... */
+  --color-surface: #16181d;
+  --color-surface-2: #1c1f26;
+  --color-edge: #2a2d35;
+  --color-edge-strong: #3b4048;
+  --color-brand: #00d4c8;
+  --color-positive: #00c853;
+  --color-negative: #ff4d4f;
+  --color-gold: #c9a227;
+  --color-dim: #9aa0a6;
+
+  /* Elevation: flat, hairline-led, no glow */
+  --shadow-panel: inset 0 1px 0 0 rgb(255 255 255 / 0.03),
+    0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-elevated: inset 0 1px 0 0 rgb(255 255 255 / 0.04),
+    0 24px 48px -28px rgb(0 0 0 / 0.9);
+
+  --ease-precise: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-duration: 0.55s;
+  --motion-stagger: 0.07s;
+  --motion-y: 16px;
+  --motion-delay: 0s;
+
+  /* Generous vertical rhythm for page sections */
+  --spacing-section: 7rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/40;
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklch, var(--syntho-brand) 28%, transparent);
+    color: var(--syntho-text);
+  }
+
+  /* Numerals must never reflow when values tick */
+  .font-mono,
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--syntho-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--syntho-edge);
+    border: 2px solid var(--syntho-bg);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-edge-strong);
+  }
+
+  /* Cards read as hairline-bordered panels rather than ringed surfaces */
+  [data-slot="card"] {
+    @apply border border-edge ring-0 shadow-panel;
+  }
+
+  /* Recharts: axis labels inherit the metric typeface, and nothing draws focus rings */
+  .recharts-cartesian-axis-tick-value,
+  .recharts-polar-angle-axis-tick-value {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .recharts-wrapper,
+  .recharts-surface {
+    outline: none;
+  }
+
+  .recharts-tooltip-wrapper {
+    outline: none;
+    transition: transform 120ms var(--ease-precise);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Utilities
+ * ------------------------------------------------------------------------- */
+
+/* Hide native scrollbars on instrument strips that scroll horizontally */
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Tabular, tightly tracked numerics for any metric readout */
+@utility metric {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Uppercase micro-label used above every metric and section */
+@utility label-micro {
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--syntho-text-dim);
+}
+
+/* Faint engineering grid, masked so it never competes with content */
+@utility grid-field {
+  background-image: linear-gradient(
+      to right,
+      color-mix(in oklch, var(--syntho-edge) 55%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--syntho-edge) 55%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 64px 64px;
+  mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    #000 0%,
+    transparent 75%
+  );
+}
+
+/* Extremely slow grid drift — ambient, not decorative motion */
+@utility grid-field-live {
+  animation: grid-drift 90s linear infinite;
+}
+
+/* Responsive chart well: readable at 375px, full height on desktop */
+@utility chart-stage {
+  width: 100%;
+  height: 13.75rem;
+  @media (min-width: 640px) {
+    height: 17.5rem;
+  }
+  @media (min-width: 1024px) {
+    height: 21.25rem;
+  }
+}
+
+/* Hover lift + hairline brand glow. Pointer-fine only, so touch does not stick. */
+@utility hover-lift {
+  transition:
+    transform 180ms var(--ease-precise),
+    border-color 180ms var(--ease-precise),
+    box-shadow 180ms var(--ease-precise);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(
+        in oklch,
+        var(--syntho-brand) 28%,
+        var(--syntho-edge)
+      );
+      box-shadow:
+        0 0 0 1px color-mix(in oklch, var(--syntho-brand) 14%, transparent),
+        0 18px 36px -28px rgb(0 0 0 / 0.85);
+    }
+  }
+}
+
+/* Single hairline that fades at both ends */
+@utility rule-fade {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--syntho-edge) 15%,
+    var(--syntho-edge) 85%,
+    transparent
+  );
+}
+
+/* Very low-intensity brand wash behind hero/section headers */
+@utility brand-wash {
+  background: radial-gradient(
+    ellipse 60% 50% at 50% -10%,
+    color-mix(in oklch, var(--syntho-brand) 9%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* First-paint fade-up. fill-mode `both` holds the end state; it must never
+ * be implemented as a Framer inline `opacity: 0` on the server. */
+@keyframes motion-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--motion-y, 16px), 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes grid-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 64px 32px;
+  }
+}
+
+.motion-enter {
+  animation: motion-fade-up var(--motion-duration) var(--ease-precise) both;
+  animation-delay: var(--motion-delay, 0s);
+}
+
+@media (scripting: none) {
+  .motion-enter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .motion-enter,
+  .grid-field-live {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}

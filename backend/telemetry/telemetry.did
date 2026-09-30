@@ -1,0 +1,45 @@
+type MetricsRecord = record {
+    agent_id : text;
+    timestamp : nat64;
+    equity : float64;
+    pnl_day : float64;
+    pnl_total : float64;
+    drawdown : float64;
+    sharpe_90d : float64;
+    win_rate : float64;
+    trades_24h : nat32;
+    cycles_burned_24h : nat64;
+    status : text;
+};
+
+type PortfolioSnapshot = record {
+    timestamp : nat64;
+    total_equity : float64;
+    total_pnl : float64;
+    current_drawdown : float64;
+    agents_live : nat32;
+};
+
+type AgentSummary = record {
+    agent_id : text;
+    status : text;
+    last_update : nat64;
+    equity : float64;
+    drawdown : float64;
+};
+
+type RecordResult = variant { Ok; Err : text };
+
+service : {
+    // Authenticated writes. Caller must be a controller or on the writer allow-list.
+    "record_metrics" : (text, MetricsRecord) -> (RecordResult);
+    "add_writer" : (principal) -> (RecordResult);
+    "remove_writer" : (principal) -> (RecordResult);
+
+    // Public reads.
+    "get_latest" : (text) -> (opt MetricsRecord) query;
+    "get_portfolio_snapshot" : () -> (PortfolioSnapshot) query;
+    "list_agents" : () -> (vec AgentSummary) query;
+    "list_writers" : () -> (vec principal) query;
+    "get_history" : (text) -> (vec MetricsRecord) query;
+};

@@ -1,0 +1,17 @@
+{
+  "canisters": {
+    "telemetry": {
+      "candid": "backend/telemetry/telemetry.did",
+      "package": "telemetry",
+      "type": "rust",
+      "gzip": true
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env.dfx",
+  "version": 1
+}
