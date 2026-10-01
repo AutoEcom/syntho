@@ -52,7 +52,7 @@ export default async function RootLayout({
       <body className="min-h-screen bg-background font-sans antialiased">
         <AppProviders>
           <div className="flex min-h-screen flex-col">
-            <TopNav asOf={asOf} />
+            <TopNav />
             <main className="flex-1">{children}</main>
             <SiteFooter asOf={asOf} />
           </div>

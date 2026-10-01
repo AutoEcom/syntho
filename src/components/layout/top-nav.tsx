@@ -15,14 +15,13 @@ import { AuthStatus } from "./auth-status";
 import { Container } from "./container";
 import { Logo } from "./logo";
 import { NAV_ITEMS } from "./nav-items";
-import { formatTimeUtc } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 function isActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function TopNav({ asOf }: { asOf: string }) {
+export function TopNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [elevated, setElevated] = useState(false);
@@ -55,7 +54,7 @@ export function TopNav({ asOf }: { asOf: string }) {
 
           <nav
             aria-label="Primary"
-            className="hidden h-16 items-center gap-1 md:flex"
+            className="hidden h-16 items-center gap-0.5 lg:flex"
           >
             {NAV_ITEMS.map((item) => {
               const active = isActive(pathname, item.href);
@@ -65,7 +64,7 @@ export function TopNav({ asOf }: { asOf: string }) {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative flex h-16 items-center px-3 text-sm transition-colors duration-200",
+                    "relative flex h-16 items-center px-2.5 text-sm transition-colors duration-200 lg:px-3",
                     active
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground"
@@ -91,7 +90,7 @@ export function TopNav({ asOf }: { asOf: string }) {
                 <span className="relative inline-flex size-1.5 rounded-full bg-brand" />
               </span>
               <span className="metric text-[11px] text-muted-foreground">
-                Telemetry live · {formatTimeUtc(asOf)}
+                Telemetry live
               </span>
             </span>
 
@@ -109,7 +108,7 @@ export function TopNav({ asOf }: { asOf: string }) {
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  className="md:hidden"
+                  className="lg:hidden"
                   aria-label="Open navigation"
                 >
                   <MenuIcon />
@@ -160,9 +159,6 @@ export function TopNav({ asOf }: { asOf: string }) {
                       <ArrowRightIcon data-icon="inline-end" />
                     </Link>
                   </Button>
-                  <p className="metric text-[11px] text-muted-foreground">
-                    Snapshot {formatTimeUtc(asOf)} · mock dataset
-                  </p>
                 </div>
               </SheetContent>
             </Sheet>

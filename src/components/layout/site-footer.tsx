@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Container } from "./container";
 import { Logo } from "./logo";
 import { NAV_ITEMS } from "./nav-items";
-import { formatDate } from "@/lib/format";
 
 const PLATFORM_LINKS = NAV_ITEMS;
 
@@ -23,6 +22,7 @@ const RESOURCE_LINKS = [
   { href: "/dashboard", label: "Methodology" },
   { href: "/telemetry", label: "Risk framework" },
   { href: "/metering", label: "Cost of compute" },
+  { href: "/economy", label: "Protocol economy" },
   { href: "/agents", label: "Agent registry" },
 ];
 
@@ -38,9 +38,6 @@ export function SiteFooter({ asOf }: { asOf: string }) {
               the Internet Computer. Performance, risk and compute cost are
               published from the same state the agents execute against.
             </p>
-            <p className="metric mt-5 text-[11px] text-muted-foreground">
-              Snapshot {formatDate(asOf)} · mock dataset
-            </p>
           </div>
 
           <FooterColumn title="Platform" links={PLATFORM_LINKS} />
@@ -50,9 +47,8 @@ export function SiteFooter({ asOf }: { asOf: string }) {
 
         <div className="flex flex-col gap-4 border-t border-edge py-7 pb-[max(1.75rem,env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-muted-foreground">
-            © {new Date(asOf).getUTCFullYear()} Syntho. All figures shown are
-            illustrative mock data and are not an offer, solicitation, or
-            investment advice.
+            © {new Date(asOf).getUTCFullYear()} Syntho. Not an offer,
+            solicitation, or investment advice.
           </p>
           <p className="metric text-[11px] text-muted-foreground">
             syntho.cc

@@ -15,7 +15,6 @@ import {
   formatPercent,
   formatRatio,
   formatSignedPercent,
-  formatTimeUtc,
   formatUsd,
   formatUsdCompact,
 } from "@/lib/format";
@@ -53,11 +52,6 @@ export default async function TelemetryPage() {
           eyebrow="Risk"
           title="Telemetry"
           description="Drawdown, exposure and every observation the risk canister has raised. Nothing here is smoothed or restated: the drawdown episode in the middle of the window is shown exactly as it occurred."
-          actions={
-            <span className="metric rounded-lg border border-edge bg-surface px-3 py-2 text-[11px] text-muted-foreground">
-              Evaluated {formatDate(asOf)} · {formatTimeUtc(asOf)}
-            </span>
-          }
         />
       </FadeIn>
 

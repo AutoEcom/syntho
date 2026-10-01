@@ -26,4 +26,9 @@ export const NAV_ITEMS: NavItem[] = [
     label: "Metering",
     hint: "Cycle burn, runway and cost of compute",
   },
+  {
+    href: "/economy",
+    label: "Economy",
+    hint: "Settlement, $SYN utility and supply architecture",
+  },
 ];

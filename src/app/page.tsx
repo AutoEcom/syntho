@@ -7,6 +7,7 @@ import {
   NetworkIcon,
 } from "lucide-react";
 import { EquityChart } from "@/components/charts/equity-chart";
+import { EarlyAccessSection } from "@/components/landing/early-access";
 import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/layout/page-header";
 import { MetricStrip } from "@/components/metrics/metric-strip";
@@ -19,7 +20,6 @@ import { Card } from "@/components/ui/card";
 import { data } from "@/lib/data";
 import {
   formatCycles,
-  formatDate,
   formatPercent,
   formatRatio,
   formatSignedPercent,
@@ -71,14 +71,13 @@ const ICP_PILLARS = [
 ] as const;
 
 export default async function LandingPage() {
-  const [metrics, equity, agents, metering, canisters, asOf] =
+  const [metrics, equity, agents, metering, canisters] =
     await Promise.all([
       data.getPortfolioMetrics(),
       data.getEquityCurve(90),
       data.getAgents(),
       data.getMeteringSummary(),
       data.getCanisters(),
-      data.getAsOf(),
     ]);
 
   const heroMetrics = [
@@ -145,8 +144,7 @@ export default async function LandingPage() {
                   <span className="relative inline-flex size-1.5 rounded-full bg-brand" />
                 </span>
                 <span className="metric text-[11px] tracking-[0.08em] text-muted-foreground uppercase">
-                  {metrics.agentsActive} agents live · snapshot{" "}
-                  {formatDate(asOf)}
+                  {metrics.agentsActive} agents live
                 </span>
               </div>
             </Enter>
@@ -199,6 +197,8 @@ export default async function LandingPage() {
           </div>
         </Container>
       </section>
+
+      <EarlyAccessSection />
 
       {/* Value props */}
       <section className="py-16 sm:py-24">

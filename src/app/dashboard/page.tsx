@@ -20,12 +20,10 @@ import { data } from "@/lib/data";
 import {
   formatCount,
   formatCycles,
-  formatDate,
   formatPercent,
   formatRatio,
   formatSignedPercent,
   formatSignedUsd,
-  formatTimeUtc,
   formatUsd,
   formatUsdCompact,
 } from "@/lib/format";
@@ -60,17 +58,12 @@ export default async function DashboardPage() {
           title="Live telemetry"
           description="Aggregate state of the Syntho deployment: equity, risk posture, capital allocation and the agents responsible for each. Limits are shown beside the values they constrain."
           actions={
-            <>
-              <span className="metric rounded-lg border border-edge bg-surface px-3 py-2 text-[11px] text-muted-foreground">
-                Settled {formatDate(asOf)} · {formatTimeUtc(asOf)}
-              </span>
-              <Button asChild variant="outline" className="min-h-11 sm:min-h-8">
-                <Link href="/telemetry">
-                  Risk telemetry
-                  <ArrowRightIcon data-icon="inline-end" />
-                </Link>
-              </Button>
-            </>
+            <Button asChild variant="outline" className="min-h-11 sm:min-h-8">
+              <Link href="/telemetry">
+                Risk telemetry
+                <ArrowRightIcon data-icon="inline-end" />
+              </Link>
+            </Button>
           }
         />
       </FadeIn>

@@ -15,10 +15,8 @@ import type { CycleBurnPoint } from "@/lib/types";
 import {
   formatCount,
   formatCycles,
-  formatDate,
   formatPercent,
   formatRatio,
-  formatTimeUtc,
   formatUsd,
 } from "@/lib/format";
 
@@ -40,12 +38,11 @@ const WORKLOADS: {
 ];
 
 export default async function MeteringPage() {
-  const [metering, burn, canisters, metrics, asOf] = await Promise.all([
+  const [metering, burn, canisters, metrics] = await Promise.all([
     data.getMeteringSummary(),
     data.getCycleBurn(30),
     data.getCanisters(),
     data.getPortfolioMetrics(),
-    data.getAsOf(),
   ]);
 
   const atRisk = canisters.filter((c) => c.runwayDays < 20);
@@ -70,11 +67,6 @@ export default async function MeteringPage() {
           eyebrow="Compute"
           title="Metering"
           description="On the Internet Computer, compute is paid for in cycles by the canister that performs it. That makes the cost of running this strategy stack a measured quantity with a runway, rather than an infrastructure estimate."
-          actions={
-            <span className="metric rounded-lg border border-edge bg-surface px-3 py-2 text-[11px] text-muted-foreground">
-              Metered {formatDate(asOf)} · {formatTimeUtc(asOf)}
-            </span>
-          }
         />
       </FadeIn>
 
