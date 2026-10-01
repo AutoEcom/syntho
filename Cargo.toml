@@ -1,5 +1,5 @@
 [workspace]
-members = ["backend/telemetry"]
+members = ["backend/telemetry", "backend/syn_ledger", "backend/syn_sale"]
 resolver = "2"
 
 [profile.release]

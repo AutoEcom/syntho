@@ -1,0 +1,77 @@
+type Account = record {
+    owner : principal;
+    subaccount : opt blob;
+};
+
+type SaleInit = record {
+    admin : opt principal;
+    ledger : opt principal;
+    icp_ledger : opt principal;
+    treasury : opt principal;
+    icp_usd_rate_e6 : opt nat64;
+    min_purchase_usd_e6 : opt nat64;
+};
+
+type SaleInfo = record {
+    symbol : text;
+    decimals : nat8;
+    syn_usd_e6 : nat64;
+    icp_usd_rate_e6 : nat64;
+    min_purchase_usd_e6 : nat64;
+    paused : bool;
+    total_sold_e8s : nat64;
+    remaining_mintable_e8s : nat64;
+    hard_cap_e8s : nat64;
+    treasury : opt principal;
+    ledger : opt principal;
+    icp_ledger : opt principal;
+};
+
+type Purchase = record {
+    id : nat64;
+    buyer : principal;
+    icp_e8s : nat64;
+    icp_usd_rate_e6 : nat64;
+    usd_e6 : nat64;
+    syn_e8s : nat64;
+    timestamp_ns : nat64;
+    mint_tx : nat;
+};
+
+type SaleError = variant {
+    Unauthorized;
+    Paused;
+    AmountTooSmall : record { min_usd_e6 : nat64; provided_usd_e6 : nat64 };
+    RateNotSet;
+    LedgerNotSet;
+    IcpLedgerNotSet;
+    CapExceeded : record { remaining_e8s : nat64; requested_e8s : nat64 };
+    InvalidAmount : text;
+    PurchaseInProgress;
+    IcpTransferFailed : text;
+    MintFailed : text;
+    RefundFailed : text;
+    ArithmeticOverflow;
+};
+
+type BuyResult = variant { Ok : Purchase; Err : SaleError };
+type AdminResult = variant { Ok; Err : SaleError };
+
+service : (opt SaleInit) -> {
+    "get_sale_info" : () -> (SaleInfo) query;
+    "get_icp_usd_rate" : () -> (float64) query;
+    "get_purchase" : (nat64) -> (opt Purchase) query;
+    "purchases_of" : (principal) -> (vec Purchase) query;
+
+    "buy" : (nat) -> (BuyResult);
+
+    "set_icp_usd_rate" : (nat64) -> (AdminResult);
+    "set_min_purchase_usd" : (nat64) -> (AdminResult);
+    "set_treasury" : (opt principal) -> (AdminResult);
+    "set_paused" : (bool) -> (AdminResult);
+    "set_ledger" : (principal) -> (AdminResult);
+    "set_icp_ledger" : (principal) -> (AdminResult);
+    "set_admin" : (principal) -> (AdminResult);
+    "set_icp_fee" : (nat64) -> (AdminResult);
+    "admin_clear_lock" : (principal) -> (AdminResult);
+};

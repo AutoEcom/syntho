@@ -1,6 +1,6 @@
 /**
  * Early access — copy and rate for the landing instrument card.
- * Treasury purchase is not wired; the CTA opens a placeholder only.
+ * CTA opens the Acquire $SYN purchase dialog.
  */
 
 export const EARLY_ACCESS = {
@@ -15,9 +15,4 @@ export const EARLY_ACCESS = {
   body: "Early access is available at a fixed rate through the protocol treasury. No liquidity pool is active at this stage.",
   cta: "Acquire $SYN",
   ctaNote: "Internet Identity required",
-  placeholder: {
-    title: "Connect wallet",
-    body: "Treasury settlement is not connected in this build. Internet Identity will be required when the purchase flow is live.",
-    dismiss: "Close",
-  },
 } as const;

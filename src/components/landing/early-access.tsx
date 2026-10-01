@@ -21,7 +21,7 @@ export function EarlyAccessSection() {
     <section
       id={id}
       aria-labelledby="early-access-heading"
-      className="relative scroll-mt-20 border-b border-edge bg-surface/20 py-8 sm:py-12 lg:py-14"
+      className="relative scroll-mt-20 border-b border-edge bg-surface/20 pt-16 pb-8 sm:pt-24 sm:pb-12 lg:pt-24 lg:pb-14"
     >
       <Container>
         <FadeIn inView>

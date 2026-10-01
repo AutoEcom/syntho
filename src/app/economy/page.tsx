@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/layout/page-header";
 import { Enter } from "@/components/motion/enter";
 import { FadeIn } from "@/components/motion/fade-in";
 import { StaggerChildren } from "@/components/motion/stagger-children";
+import { EconomyAcquireButton } from "@/components/sale/economy-acquire-button";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -94,11 +95,7 @@ export default function EconomyPage() {
             </Enter>
             <Enter delay={0.28}>
               <div className="mt-6 sm:mt-7">
-                <Button asChild variant="outline" size="sm" className="min-h-11 sm:min-h-8">
-                  <Link href={{ pathname: "/", hash: "early-access" }}>
-                    Early access
-                  </Link>
-                </Button>
+                <EconomyAcquireButton />
               </div>
             </Enter>
           </div>

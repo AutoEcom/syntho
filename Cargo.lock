@@ -589,6 +589,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "syn_ledger"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-stable-structures",
+ "serde",
+]
+
+[[package]]
+name = "syn_sale"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-stable-structures",
+ "serde",
+]
+
+[[package]]
 name = "telemetry"
 version = "0.1.0"
 dependencies = [

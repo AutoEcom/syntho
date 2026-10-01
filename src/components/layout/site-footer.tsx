@@ -47,8 +47,7 @@ export function SiteFooter({ asOf }: { asOf: string }) {
 
         <div className="flex flex-col gap-4 border-t border-edge py-7 pb-[max(1.75rem,env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-muted-foreground">
-            © {new Date(asOf).getUTCFullYear()} Syntho. Not an offer,
-            solicitation, or investment advice.
+            © {new Date(asOf).getUTCFullYear()} Syntho.
           </p>
           <p className="metric text-[11px] text-muted-foreground">
             syntho.cc

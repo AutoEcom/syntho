@@ -5,6 +5,20 @@
       "package": "telemetry",
       "type": "rust",
       "gzip": true
+    },
+    "syn_ledger": {
+      "candid": "backend/syn_ledger/syn_ledger.did",
+      "package": "syn_ledger",
+      "type": "rust",
+      "gzip": true,
+      "init_arg": "(null)"
+    },
+    "syn_sale": {
+      "candid": "backend/syn_sale/syn_sale.did",
+      "package": "syn_sale",
+      "type": "rust",
+      "gzip": true,
+      "init_arg": "(null)"
     }
   },
   "defaults": {

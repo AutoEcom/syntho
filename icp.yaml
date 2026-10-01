@@ -5,3 +5,11 @@ canisters:
     type: rust
     candid: backend/telemetry/telemetry.did
     package: telemetry
+  syn_ledger:
+    type: rust
+    candid: backend/syn_ledger/syn_ledger.did
+    package: syn_ledger
+  syn_sale:
+    type: rust
+    candid: backend/syn_sale/syn_sale.did
+    package: syn_sale
