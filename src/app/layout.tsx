@@ -10,7 +10,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://syntho.cc"),
   title: {
-    default: "Syntho — Autonomous trading intelligence on the Internet Computer",
+    default: "Syntho | Autonomous AI Trading on ICP",
     template: "%s · Syntho",
   },
   description:
@@ -20,15 +20,25 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://syntho.cc",
     siteName: "Syntho",
-    title: "Syntho — Autonomous trading intelligence on the Internet Computer",
+    title: "Syntho | Autonomous AI Trading on ICP",
     description:
-      "Transparent performance. Predictable compute. Institutional-grade risk telemetry.",
+      "Autonomous trading intelligence native to the Internet Computer. Transparent performance, predictable compute, institutional-grade risk telemetry.",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Syntho",
+    site: "@synthocc",
+    creator: "@synthocc",
+    title: "Syntho | Autonomous AI Trading on ICP",
     description:
-      "Autonomous trading intelligence native to the Internet Computer.",
+      "Autonomous trading intelligence native to the Internet Computer. Transparent performance, predictable compute, institutional-grade risk telemetry.",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-icon", sizes: "180x180" }],
   },
   robots: { index: true, follow: true },
 };

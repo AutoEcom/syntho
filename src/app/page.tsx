@@ -1,14 +1,13 @@
 import Link from "next/link";
-import {
-  ActivityIcon,
-  ArrowRightIcon,
-  CpuIcon,
-  FuelIcon,
-  NetworkIcon,
-} from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 import { EquityChart } from "@/components/charts/equity-chart";
 import { EarlyAccessSection } from "@/components/landing/early-access";
+import { HeroNetworkAnimation } from "@/components/landing/hero-network-animation";
 import { Container } from "@/components/layout/container";
+import {
+  FeatureIcon3D,
+  type FeatureIcon3DType,
+} from "@/components/three/feature-icon-3d";
 import { SectionHeading } from "@/components/layout/page-header";
 import { MetricStrip } from "@/components/metrics/metric-strip";
 import { StatList, StatRow } from "@/components/metrics/stat-row";
@@ -28,32 +27,37 @@ import {
   truncatePrincipal,
 } from "@/lib/format";
 
-const VALUE_PROPS = [
+const VALUE_PROPS: {
+  icon: FeatureIcon3DType;
+  title: string;
+  body: string;
+  footer: string;
+}[] = [
   {
-    icon: CpuIcon,
+    icon: "intelligence",
     title: "Autonomous intelligence",
     body: "Each agent researches, sizes and executes without a human in the loop. Mandates, risk limits and kill conditions are encoded in the canister, not in an operator's discretion.",
     footer: "No discretionary override path",
   },
   {
-    icon: FuelIcon,
+    icon: "settlement",
     title: "ICP-native cycles metering",
     body: "Compute is paid for in cycles by the canister that performs it, so the true cost of running a strategy is measured rather than estimated — and it is quoted in a unit that does not move with token prices.",
     footer: "1T cycles = 1 XDR, fixed by protocol",
   },
   {
-    icon: ActivityIcon,
+    icon: "risk",
     title: "Transparent performance & risk telemetry",
     body: "Equity, drawdown, exposure and every risk flag are published from the same state the agents execute against. Limits are shown next to the values they constrain.",
     footer: "Observations, not marketing numbers",
   },
   {
-    icon: NetworkIcon,
+    icon: "orchestration",
     title: "Multi-agent orchestration",
     body: "Capital is allocated across independent strategies by an orchestrator that monitors correlation, concentration and compute runway, and reduces allocation before limits are reached.",
     footer: "Correlation-aware capital routing",
   },
-] as const;
+];
 
 const ICP_PILLARS = [
   {
@@ -137,59 +141,69 @@ export default async function LandingPage() {
 
         <Container className="relative">
           <div className="pt-12 pb-12 sm:pt-24 sm:pb-20 lg:pt-28">
-            <Enter>
-              <div className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-edge bg-surface/60 py-1.5 pr-3.5 pl-2.5 backdrop-blur-sm">
-                <span className="relative flex size-1.5">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand opacity-60" />
-                  <span className="relative inline-flex size-1.5 rounded-full bg-brand" />
-                </span>
-                <span className="metric text-[11px] tracking-[0.08em] text-muted-foreground uppercase">
-                  {metrics.agentsActive} agents live
-                </span>
+            <div className="grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:items-stretch lg:gap-8 xl:gap-12">
+              <div className="min-w-0">
+                <Enter>
+                  <div className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-edge bg-surface/60 py-1.5 pr-3.5 pl-2.5 backdrop-blur-sm">
+                    <span className="relative flex size-1.5">
+                      <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand opacity-60" />
+                      <span className="relative inline-flex size-1.5 rounded-full bg-brand" />
+                    </span>
+                    <span className="metric text-[11px] tracking-[0.08em] text-muted-foreground uppercase">
+                      {metrics.agentsActive} agents live
+                    </span>
+                  </div>
+                </Enter>
+
+                <Enter delay={0.07}>
+                  <h1 className="mt-7 max-w-3xl text-[2.125rem] leading-[1.1] font-medium tracking-[-0.03em] text-foreground sm:mt-8 sm:text-[3.5rem] sm:leading-[1.08] lg:text-[4rem]">
+                    Autonomous trading intelligence.
+                    <span className="block text-muted-foreground">
+                      Native to the Internet Computer.
+                    </span>
+                  </h1>
+                </Enter>
+
+                <Enter delay={0.14}>
+                  <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/90 sm:mt-7 sm:text-lg">
+                    Transparent performance. Predictable compute.
+                    Institutional-grade risk telemetry.
+                  </p>
+                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-[0.9375rem]">
+                    Syntho operates a portfolio of independent trading agents as
+                    canister software on the Internet Computer. Every allocation,
+                    risk limit and unit of compute is measured on-chain and
+                    published as it happens — including the periods that did not
+                    work.
+                  </p>
+                </Enter>
+
+                <Enter delay={0.21}>
+                  <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center">
+                    <Button asChild size="lg" className="w-full sm:w-auto">
+                      <Link href="/dashboard">
+                        View live telemetry
+                        <ArrowRightIcon data-icon="inline-end" />
+                      </Link>
+                    </Button>
+                    <Button
+                      asChild
+                      size="lg"
+                      variant="outline"
+                      className="w-full sm:w-auto"
+                    >
+                      <Link href="/agents">Agent registry</Link>
+                    </Button>
+                  </div>
+                </Enter>
               </div>
-            </Enter>
 
-            <Enter delay={0.07}>
-              <h1 className="mt-7 max-w-3xl text-[2.125rem] leading-[1.1] font-medium tracking-[-0.03em] text-foreground sm:mt-8 sm:text-[3.5rem] sm:leading-[1.08] lg:text-[4rem]">
-                Autonomous trading intelligence.
-                <span className="block text-muted-foreground">
-                  Native to the Internet Computer.
-                </span>
-              </h1>
-            </Enter>
-
-            <Enter delay={0.14}>
-              <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/90 sm:mt-7 sm:text-lg">
-                Transparent performance. Predictable compute.
-                Institutional-grade risk telemetry.
-              </p>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-[0.9375rem]">
-                Syntho operates a portfolio of independent trading agents as
-                canister software on the Internet Computer. Every allocation,
-                risk limit and unit of compute is measured on-chain and
-                published as it happens — including the periods that did not
-                work.
-              </p>
-            </Enter>
-
-            <Enter delay={0.21}>
-              <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center">
-                <Button asChild size="lg" className="w-full sm:w-auto">
-                  <Link href="/dashboard">
-                    View live telemetry
-                    <ArrowRightIcon data-icon="inline-end" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="w-full sm:w-auto"
-                >
-                  <Link href="/agents">Agent registry</Link>
-                </Button>
+              <div className="relative hidden h-full min-h-[24rem] w-full lg:block">
+                <Enter delay={0.18} className="h-full">
+                  <HeroNetworkAnimation />
+                </Enter>
               </div>
-            </Enter>
+            </div>
           </div>
 
           <div className="relative -mb-px">
@@ -222,11 +236,7 @@ export default async function LandingPage() {
                 key={prop.title}
                 className="flex h-full min-h-0 flex-col bg-surface p-6 transition-colors duration-200 hover:bg-surface-2/70 sm:p-7 lg:p-8"
               >
-                <prop.icon
-                  className="size-5 text-brand"
-                  strokeWidth={1.5}
-                  aria-hidden="true"
-                />
+                <FeatureIcon3D type={prop.icon} />
                 <h3 className="mt-5 text-base font-medium tracking-[-0.01em] text-foreground">
                   {prop.title}
                 </h3>
@@ -330,24 +340,29 @@ export default async function LandingPage() {
             />
           </FadeIn>
 
-          <div className="mt-12 grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:gap-16">
-            <FadeIn inView delay={0.06}>
-              <div className="divide-y divide-edge">
-                {ICP_PILLARS.map((pillar) => (
-                  <div key={pillar.title} className="py-7 first:pt-0 last:pb-0">
-                    <h3 className="text-base font-medium tracking-[-0.01em] text-foreground">
-                      {pillar.title}
-                    </h3>
-                    <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                      {pillar.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
+          <div className="mt-12 grid items-start gap-6 lg:grid-cols-[1.25fr_1fr] lg:items-stretch lg:gap-6">
+            <FadeIn inView delay={0.06} className="flex h-full min-h-0">
+              <Card className="h-full w-full gap-0 border-0 bg-surface/45 py-0 ring-1 ring-brand/15 backdrop-blur-xl">
+                <div className="flex h-full w-full flex-col divide-y divide-edge/80 px-6 sm:px-7">
+                  {ICP_PILLARS.map((pillar) => (
+                    <div
+                      key={pillar.title}
+                      className="flex flex-1 flex-col justify-center py-7"
+                    >
+                      <h3 className="text-base font-medium tracking-[-0.01em] text-foreground">
+                        {pillar.title}
+                      </h3>
+                      <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                        {pillar.body}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </Card>
             </FadeIn>
 
-            <FadeIn inView delay={0.12}>
-              <Card className="gap-0 py-0">
+            <FadeIn inView delay={0.12} className="flex h-full min-w-0">
+              <Card className="h-full w-full gap-0 py-0">
                 <div className="flex items-center justify-between gap-4 border-b border-edge px-5 py-4">
                   <p className="label-micro">Deployment</p>
                   <p className="metric text-[11px] text-muted-foreground">

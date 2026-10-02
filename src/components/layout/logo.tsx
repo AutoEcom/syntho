@@ -7,7 +7,7 @@ export function LogoMark({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
-      className={cn("size-6 text-brand", className)}
+      className={cn("size-8 text-brand", className)}
     >
       <path
         d="M12 1.75 22.25 12 12 22.25 1.75 12 12 1.75Z"
@@ -34,10 +34,10 @@ export function Logo({
   showWordmark?: boolean;
 }) {
   return (
-    <span className={cn("flex items-center gap-2.5", className)}>
+    <span className={cn("flex items-center gap-3", className)}>
       <LogoMark />
       {showWordmark ? (
-        <span className="text-[15px] leading-none font-medium tracking-[-0.01em] text-foreground">
+        <span className="text-[18px] leading-none font-medium tracking-[-0.015em] text-foreground">
           Syntho
         </span>
       ) : null}

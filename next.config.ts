@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
     "@dfinity/candid",
     "@dfinity/identity",
     "@dfinity/principal",
+    "three",
+    "@react-three/fiber",
+    "@react-three/drei",
   ],
 };
 
