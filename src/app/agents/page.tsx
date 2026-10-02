@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
 import { AgentCard } from "@/components/agents/agent-card";
+import { AgentsHeadlineStrip } from "@/components/agents/headline-strip";
 import { AgentTable } from "@/components/agents/agent-table";
 import { Container } from "@/components/layout/container";
 import { PageHeader, SectionHeading } from "@/components/layout/page-header";
-import { MetricStrip } from "@/components/metrics/metric-strip";
 import { FadeIn } from "@/components/motion/fade-in";
 import { StaggerChildren } from "@/components/motion/stagger-children";
 import { data } from "@/lib/data";
-import {
-  formatCount,
-  formatCycles,
-  formatPercent,
-  formatRatio,
-  formatUsdCompact,
-} from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Agents",
@@ -46,47 +39,16 @@ export default async function AgentsPage() {
       </FadeIn>
 
       <FadeIn delay={0.06}>
-        <MetricStrip
-          className="mt-10"
-          metrics={[
-            {
-              label: "Agents",
-              value: `${metrics.agentsActive} / ${agents.length}`,
-              meta: "Active of total",
-            },
-            {
-              label: "Capital deployed",
-              value: formatUsdCompact(deployed),
-              meta: `${formatPercent(deployed / metrics.equity, 1)} of equity`,
-            },
-            {
-              label: "Allocation-weighted Sharpe",
-              value: formatRatio(weightedSharpe),
-              meta: "Across the live roster",
-            },
-            {
-              label: "Mean pairwise correlation",
-              value: formatRatio(metrics.avgAgentCorrelation),
-              meta: "0.40 ceiling",
-            },
-            {
-              label: "Trades, 24h",
-              value: formatCount(metrics.trades24h),
-              meta: "All agents",
-            },
-            {
-              label: "Cycle burn, 24h",
-              value: formatCycles(burn24h, false),
-              meta: "Agent canisters only",
-              tone: "brand",
-            },
-            {
-              label: "Shortest runway",
-              value: `${formatRatio(shortestRunway, 1)}d`,
-              meta: "Top-up threshold 20d",
-              tone: shortestRunway < 20 ? "gold" : "default",
-            },
-          ]}
+        <AgentsHeadlineStrip
+          agentsActive={metrics.agentsActive}
+          agentsTotal={agents.length}
+          deployed={deployed}
+          equity={metrics.equity}
+          weightedSharpe={weightedSharpe}
+          correlation={metrics.avgAgentCorrelation}
+          trades24h={metrics.trades24h}
+          burn24h={burn24h}
+          shortestRunway={shortestRunway}
         />
       </FadeIn>
 

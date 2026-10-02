@@ -25,6 +25,7 @@ import {
   toneOf,
 } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { LiveText } from "@/components/metrics/live-text";
 import { StatusDot } from "./status-dot";
 
 type SortKey =
@@ -109,7 +110,7 @@ export function AgentTable({
     );
 
   return (
-    <div className="overflow-x-auto overscroll-x-contain rounded-xl border border-edge bg-surface shadow-panel">
+    <div className="overflow-x-auto overscroll-x-contain rounded-xl border border-edge/80 bg-surface/55 shadow-none backdrop-blur-md">
       <Table className="text-[13px]">
         <TableHeader>
           <TableRow className="border-edge hover:bg-transparent">
@@ -185,7 +186,12 @@ export function AgentTable({
 
                 <NumCell>{formatPercent(agent.allocation, 1)}</NumCell>
                 <NumCell className={TONE_TEXT[tone]}>
-                  {formatSignedUsd(agent.performance.pnl30d, true)}
+                  <LiveText
+                    value={agent.performance.pnl30d}
+                    kind="pnl"
+                    seed={agent.id.length + 1}
+                    format={(n) => formatSignedUsd(n, true)}
+                  />
                 </NumCell>
                 <NumCell
                   className={TONE_TEXT[toneOf(agent.performance.returnTotal)]}
@@ -198,10 +204,20 @@ export function AgentTable({
                 </NumCell>
                 <NumCell>{formatPercent(agent.performance.winRate, 1)}</NumCell>
                 <NumCell className="text-muted-foreground">
-                  {formatCount(agent.performance.trades24h)}
+                  <LiveText
+                    value={agent.performance.trades24h}
+                    kind="count"
+                    seed={agent.id.length + 2}
+                    format={formatCount}
+                  />
                 </NumCell>
                 <NumCell className="text-muted-foreground">
-                  {formatCycles(agent.compute.cycles24h, false)}
+                  <LiveText
+                    value={agent.compute.cycles24h}
+                    kind="cycles"
+                    seed={agent.id.length + 3}
+                    format={(n) => formatCycles(n, false)}
+                  />
                 </NumCell>
                 <NumCell className="text-muted-foreground">
                   {formatSince(agent.updatedAt, asOf)}

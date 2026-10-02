@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { ArrowDownRightIcon, ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
 import { TONE_TEXT, toneOf } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -21,7 +22,7 @@ export function Delta({
   /** Raw value, used only to pick the tone. */
   value: number;
   /** Pre-formatted text, e.g. `+1.24%` or `+$128,430`. */
-  label: string;
+  label: ReactNode;
   showIcon?: boolean;
   className?: string;
 }) {

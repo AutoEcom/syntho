@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 
 export interface StripMetric {
   label: string;
-  /** Pre-formatted primary readout. */
-  value: string;
+  /** Pre-formatted primary readout, or a live-updating node. */
+  value: ReactNode;
   /** Optional secondary line: a delta, a limit, or a unit. */
   meta?: ReactNode;
   tone?: "default" | "brand" | "positive" | "negative" | "gold";
@@ -38,14 +38,14 @@ export function MetricStrip({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-xl border border-edge bg-edge shadow-panel",
+        "overflow-hidden rounded-xl border border-edge/80 bg-edge/50 shadow-none backdrop-blur-md",
         className
       )}
     >
       <dl className="grid grid-cols-2 gap-px sm:grid-cols-3 xl:grid-cols-7">
         {metrics.map((metric, i) => {
           const cell = (
-            <div className="flex h-full min-w-0 flex-col gap-2 bg-surface/90 px-4 py-4 sm:px-5">
+            <div className="flex h-full min-w-0 flex-col gap-2 bg-surface/55 px-4 py-4 backdrop-blur-md sm:px-5">
               <dt className="label-micro truncate">{metric.label}</dt>
               <dd className="flex min-w-0 flex-col gap-1">
                 <span

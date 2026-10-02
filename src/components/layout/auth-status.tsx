@@ -23,26 +23,11 @@ export function AuthStatus({
 }) {
   const {
     isAuthenticated,
-    isLoading,
     principal,
     principalText,
     login,
     logout,
   } = useAuth();
-
-  if (isLoading && !isAuthenticated) {
-    return (
-      <Button
-        type="button"
-        variant="outline"
-        size={compact ? "lg" : "sm"}
-        disabled
-        className={cn(compact && "w-full", !compact && "h-9 min-h-9", className)}
-      >
-        Sign in
-      </Button>
-    );
-  }
 
   if (!isAuthenticated) {
     return (
@@ -84,7 +69,7 @@ export function AuthStatus({
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
           type="button"
@@ -99,7 +84,12 @@ export function AuthStatus({
           <ChevronDownIcon data-icon="inline-end" className="size-3.5 opacity-60" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-56">
+      <DropdownMenuContent
+        align="end"
+        sideOffset={8}
+        onCloseAutoFocus={(event) => event.preventDefault()}
+        className="z-[90] min-w-56 border-edge/80 bg-surface/80 backdrop-blur-xl"
+      >
         <DropdownMenuLabel>Internet Identity</DropdownMenuLabel>
         <p className="metric max-w-64 px-1.5 pb-1.5 text-[11px] leading-relaxed break-all text-muted-foreground">
           {principal?.toText()}

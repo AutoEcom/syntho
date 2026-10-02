@@ -7,8 +7,7 @@ import { StrategyBadge, VenueList } from "@/components/agents/strategy-badge";
 import { IndexChart } from "@/components/charts/index-chart";
 import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/layout/page-header";
-import { Delta } from "@/components/metrics/delta";
-import { MetricCard } from "@/components/metrics/metric-card";
+import { AgentHeadlineMetrics } from "@/components/agents/headline-metrics";
 import { RiskBudgetBars } from "@/components/metrics/risk-budget-bars";
 import { RiskFlagList } from "@/components/metrics/risk-flag-list";
 import { StatList, StatRow } from "@/components/metrics/stat-row";
@@ -20,11 +19,9 @@ import {
   formatBytes,
   formatCount,
   formatCycles,
-  formatDate,
   formatMs,
   formatPercent,
   formatRatio,
-  formatSignedPercent,
   formatSignedUsd,
   formatSince,
   formatUsd,
@@ -151,43 +148,7 @@ export default async function AgentDetailPage({
       </FadeIn>
 
       <FadeIn delay={0.06}>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <MetricCard
-            label="Return, 30 days"
-            value={formatSignedPercent(return30d)}
-            footnote={`${formatSignedUsd(performance.pnl30d)} on ${formatUsd(
-              agent.deployedCapital
-            )} deployed`}
-            delta={
-              <Delta
-                value={performance.pnl24h}
-                label={formatSignedUsd(performance.pnl24h, true)}
-              />
-            }
-            emphasis={toneOf(return30d) === "negative" ? "default" : "brand"}
-          />
-          <MetricCard
-            label="PnL, inception to date"
-            value={formatSignedUsd(performance.pnlTotal, true)}
-            footnote={`${formatSignedPercent(
-              performance.returnTotal
-            )} since ${formatDate(agent.inceptionAt)}`}
-          />
-          <MetricCard
-            label="Sharpe"
-            value={formatRatio(performance.sharpe)}
-            footnote={`Sortino ${formatRatio(
-              performance.sortino
-            )} · profit factor ${formatRatio(performance.profitFactor)}`}
-          />
-          <MetricCard
-            label="Current drawdown"
-            value={formatPercent(performance.currentDrawdown)}
-            footnote={`Worst ${formatPercent(
-              performance.maxDrawdown
-            )} · halt ${formatPercent(limits.maxDrawdown)}`}
-          />
-        </div>
+        <AgentHeadlineMetrics agent={agent} />
       </FadeIn>
 
       <FadeIn inView className="mt-12 sm:mt-14">

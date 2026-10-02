@@ -1,13 +1,16 @@
 "use client";
 
-import { AuthProvider } from "@/lib/icp/auth";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import type { ReactNode } from "react";
+import { AuthProvider } from "@/lib/icp/auth";
+import { LiveClockProvider } from "@/hooks/use-live-metrics";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
-      <TooltipProvider delayDuration={200}>{children}</TooltipProvider>
+      <LiveClockProvider>
+        <TooltipProvider delayDuration={200}>{children}</TooltipProvider>
+      </LiveClockProvider>
     </AuthProvider>
   );
 }

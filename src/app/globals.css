@@ -165,6 +165,14 @@
     overflow-x: clip;
   }
 
+  /* Radix scroll-lock can pin overflow/pointer-events on body and unstick chrome. */
+  body[data-scroll-locked] {
+    pointer-events: auto !important;
+    overflow: unset !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
   ::selection {
     background-color: color-mix(in oklch, var(--syntho-brand) 28%, transparent);
     color: var(--syntho-text);
@@ -281,6 +289,16 @@
   @media (min-width: 1024px) {
     height: 21.25rem;
   }
+}
+
+/* Institutional glass panel — charcoal, not slate. */
+@utility glass-panel {
+  background: color-mix(in oklch, var(--syntho-surface) 58%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--syntho-edge) 78%, transparent),
+    0 18px 40px -32px rgb(0 0 0 / 0.7);
 }
 
 /* Hover lift + hairline brand glow. Pointer-fine only, so touch does not stick. */

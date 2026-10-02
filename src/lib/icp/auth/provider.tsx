@@ -70,6 +70,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
+    const watchdog = window.setTimeout(() => {
+      if (!cancelled) setIsLoading(false);
+    }, 2500);
 
     void (async () => {
       try {
@@ -84,12 +87,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setIdentity(null);
         }
       } finally {
-        if (!cancelled) setIsLoading(false);
+        if (!cancelled) {
+          window.clearTimeout(watchdog);
+          setIsLoading(false);
+        }
       }
     })();
 
     return () => {
       cancelled = true;
+      window.clearTimeout(watchdog);
     };
   }, [apply]);
 

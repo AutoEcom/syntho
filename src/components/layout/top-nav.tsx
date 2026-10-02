@@ -34,9 +34,10 @@ export function TopNav() {
   }, []);
 
   return (
-    <header
+    <>
+      <header
       className={cn(
-        "sticky top-0 z-50 border-b backdrop-blur-xl transition-[background-color,box-shadow,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "pointer-events-auto fixed inset-x-0 top-0 z-[80] isolate border-b backdrop-blur-xl transition-[background-color,box-shadow,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
         elevated
           ? "border-edge bg-background/92 shadow-panel"
           : "border-edge/70 bg-background/75"
@@ -165,6 +166,8 @@ export function TopNav() {
           </div>
         </div>
       </Container>
-    </header>
+      </header>
+      <div className="h-14 shrink-0 sm:h-16" aria-hidden="true" />
+    </>
   );
 }

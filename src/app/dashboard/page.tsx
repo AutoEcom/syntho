@@ -3,30 +3,16 @@ import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 import { AllocationChart } from "@/components/charts/allocation-chart";
 import { EquityChart } from "@/components/charts/equity-chart";
-import { Sparkline } from "@/components/charts/sparkline";
+import { DashboardHeadlineMetrics } from "@/components/dashboard/headline-metrics";
 import { Container } from "@/components/layout/container";
 import { PageHeader, SectionHeading } from "@/components/layout/page-header";
 import { AgentTable } from "@/components/agents/agent-table";
-import { Delta } from "@/components/metrics/delta";
-import { MetricCard } from "@/components/metrics/metric-card";
-import { MetricStrip } from "@/components/metrics/metric-strip";
 import { RiskBudgetBars } from "@/components/metrics/risk-budget-bars";
 import { RiskFlagList } from "@/components/metrics/risk-flag-list";
 import { FadeIn } from "@/components/motion/fade-in";
-import { StaggerChildren } from "@/components/motion/stagger-children";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { data } from "@/lib/data";
-import {
-  formatCount,
-  formatCycles,
-  formatPercent,
-  formatRatio,
-  formatSignedPercent,
-  formatSignedUsd,
-  formatUsd,
-  formatUsdCompact,
-} from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -68,104 +54,12 @@ export default async function DashboardPage() {
         />
       </FadeIn>
 
-      <StaggerChildren
-        className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 xl:grid-cols-4"
-        delay={0.08}
-        itemClassName="h-full min-w-0"
-      >
-        <MetricCard
-            label="Equity under management"
-            value={formatUsdCompact(metrics.equity)}
-            footnote={`${formatUsd(metrics.equity)} · ${formatUsdCompact(
-              metrics.netContributions
-            )} contributed`}
-            delta={
-              <Delta
-                value={metrics.return24h}
-                label={formatSignedPercent(metrics.return24h)}
-              />
-            }
-            visual={<Sparkline points={equitySpark} tone="brand" height={56} />}
-          />
-          <MetricCard
-            label="PnL, inception to date"
-            value={formatSignedUsd(metrics.pnlTotal, true)}
-            footnote={`${formatSignedPercent(
-              metrics.returnTotal
-            )} on contributed capital`}
-            delta={
-              <Delta
-                value={metrics.pnl24h}
-                label={formatSignedUsd(metrics.pnl24h, true)}
-              />
-            }
-          />
-          <MetricCard
-            label="Current drawdown"
-            value={formatPercent(metrics.currentDrawdown)}
-            footnote={`Worst in window ${formatPercent(
-              metrics.maxDrawdown
-            )} · halt at -15.00%`}
-            visual={
-              <Sparkline points={drawdownSpark} tone="negative" height={56} />
-            }
-          />
-          <MetricCard
-            label="Sharpe, 90 days"
-            value={formatRatio(metrics.sharpe)}
-            footnote={`Sortino ${formatRatio(
-              metrics.sortino
-            )} · Calmar ${formatRatio(metrics.calmar)}`}
-            emphasis="brand"
-        />
-      </StaggerChildren>
-
-      <FadeIn delay={0.32}>
-        <MetricStrip
-          className="mt-4"
-          metrics={[
-            {
-              label: "Annualised return",
-              value: formatPercent(metrics.cagr),
-              meta: "From the 90-day series",
-              tone: "positive",
-            },
-            {
-              label: "Annualised volatility",
-              value: formatPercent(metrics.volatility),
-              meta: "Daily returns, 365d scaling",
-            },
-            {
-              label: "Gross leverage",
-              value: `${formatRatio(metrics.grossLeverage)}x`,
-              meta: "2.50x ceiling",
-            },
-            {
-              label: "Net exposure",
-              value: formatSignedPercent(metrics.netExposure),
-              meta: "±25.00% of equity",
-            },
-            {
-              label: "Agents live",
-              value: `${metrics.agentsActive} / ${metrics.agentsTotal}`,
-              meta: `Mean correlation ${formatRatio(
-                metrics.avgAgentCorrelation
-              )}`,
-            },
-            {
-              label: "Trades, 24h",
-              value: formatCount(metrics.trades24h),
-              meta: `Win rate ${formatPercent(metrics.winRate, 1)}`,
-            },
-            {
-              label: "Cycle burn, 24h",
-              value: formatCycles(metering.burn24h, false),
-              meta: `${formatUsd(metering.cost24hUsd, true)} of compute`,
-              tone: "brand",
-            },
-          ]}
-        />
-      </FadeIn>
+      <DashboardHeadlineMetrics
+        metrics={metrics}
+        metering={metering}
+        equitySpark={equitySpark}
+        drawdownSpark={drawdownSpark}
+      />
 
       <FadeIn inView className="mt-12 sm:mt-16">
         <div className="grid min-w-0 gap-6 xl:grid-cols-[1.75fr_1fr]">

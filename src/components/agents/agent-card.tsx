@@ -1,7 +1,11 @@
+"use client";
+
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "lucide-react";
 import { Sparkline } from "@/components/charts/sparkline";
 import { Delta } from "@/components/metrics/delta";
+import { LiveText } from "@/components/metrics/live-text";
 import { Card } from "@/components/ui/card";
 import type { Agent } from "@/lib/types";
 import {
@@ -23,7 +27,7 @@ export function AgentCard({ agent, asOf }: { agent: Agent; asOf: string }) {
   const tone = toneOf(performance.pnl30d);
 
   return (
-    <Card className="group gap-0 py-0 hover-lift">
+    <Card className="group h-full gap-0 py-0 hover-lift">
       <Link
         href={`/agents/${agent.id}`}
         className="flex h-full flex-col rounded-xl focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
@@ -57,13 +61,25 @@ export function AgentCard({ agent, asOf }: { agent: Agent; asOf: string }) {
                   TONE_TEXT[tone]
                 )}
               >
-                {formatSignedPercent(performance.pnl30d / agent.deployedCapital)}
+                <LiveText
+                  value={performance.pnl30d / agent.deployedCapital}
+                  kind="percent"
+                  seed={agent.id.length}
+                  format={(n) => formatSignedPercent(n)}
+                />
               </span>
             </p>
           </div>
           <Delta
             value={performance.pnl30d}
-            label={formatSignedUsd(performance.pnl30d, true)}
+            label={
+              <LiveText
+                value={performance.pnl30d}
+                kind="pnl"
+                seed={agent.id.length + 3}
+                format={(n) => formatSignedUsd(n, true)}
+              />
+            }
             showIcon={false}
           />
         </div>
@@ -77,7 +93,17 @@ export function AgentCard({ agent, asOf }: { agent: Agent; asOf: string }) {
         </div>
 
         <dl className="grid grid-cols-3 divide-x divide-edge border-t border-edge">
-          <MiniStat label="Sharpe" value={formatRatio(performance.sharpe)} />
+          <MiniStat
+            label="Sharpe"
+            value={
+              <LiveText
+                value={performance.sharpe}
+                kind="ratio"
+                seed={agent.id.length + 5}
+                format={(n) => formatRatio(n)}
+              />
+            }
+          />
           <MiniStat
             label="Max DD"
             value={formatPercent(performance.maxDrawdown, 1)}
@@ -88,8 +114,13 @@ export function AgentCard({ agent, asOf }: { agent: Agent; asOf: string }) {
         <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-edge px-5 py-3.5">
           <VenueList venues={agent.venues} />
           <span className="metric text-[11px] text-muted-foreground">
-            {formatCycles(compute.cycles24h, false)} / 24h ·{" "}
-            {formatSince(agent.updatedAt, asOf)}
+            <LiveText
+              value={compute.cycles24h}
+              kind="cycles"
+              seed={agent.id.length + 7}
+              format={(n) => formatCycles(n, false)}
+            />{" "}
+            / 24h · {formatSince(agent.updatedAt, asOf)}
           </span>
         </div>
       </Link>
@@ -97,7 +128,7 @@ export function AgentCard({ agent, asOf }: { agent: Agent; asOf: string }) {
   );
 }
 
-function MiniStat({ label, value }: { label: string; value: string }) {
+function MiniStat({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="px-5 py-3.5">
       <dt className="label-micro">{label}</dt>
