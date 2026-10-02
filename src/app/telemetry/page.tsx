@@ -7,6 +7,7 @@ import { MetricStrip } from "@/components/metrics/metric-strip";
 import { RiskBudgetBars } from "@/components/metrics/risk-budget-bars";
 import { RiskFlagList } from "@/components/metrics/risk-flag-list";
 import { StatList, StatRow } from "@/components/metrics/stat-row";
+import { SubnetCanisterNetworkMap } from "@/components/telemetry/subnet-canister-network-map";
 import { FadeIn } from "@/components/motion/fade-in";
 import { Card } from "@/components/ui/card";
 import { data } from "@/lib/data";
@@ -22,18 +23,20 @@ import {
 export const metadata: Metadata = {
   title: "Telemetry",
   description:
-    "Drawdown, exposure, risk budgets and the full risk flag log for the Syntho deployment.",
+    "Drawdown, exposure, subnet canister topology and the full risk flag log for the Syntho deployment.",
 };
 
 export default async function TelemetryPage() {
-  const [metrics, equity, buckets, budgets, flags, asOf] = await Promise.all([
-    data.getPortfolioMetrics(),
-    data.getEquityCurve(90),
-    data.getExposureBuckets(),
-    data.getRiskBudgets(),
-    data.getRiskFlags(),
-    data.getAsOf(),
-  ]);
+  const [metrics, equity, buckets, budgets, flags, asOf, canisters] =
+    await Promise.all([
+      data.getPortfolioMetrics(),
+      data.getEquityCurve(90),
+      data.getExposureBuckets(),
+      data.getRiskBudgets(),
+      data.getRiskFlags(),
+      data.getAsOf(),
+      data.getCanisters(),
+    ]);
 
   const grossLong = buckets.reduce((sum, b) => sum + b.long, 0);
   const grossShort = buckets.reduce((sum, b) => sum + b.short, 0);
@@ -98,6 +101,10 @@ export default async function TelemetryPage() {
             },
           ]}
         />
+      </FadeIn>
+
+      <FadeIn inView className="mt-12 sm:mt-14">
+        <SubnetCanisterNetworkMap canisters={canisters} />
       </FadeIn>
 
       <FadeIn inView className="mt-12 sm:mt-14">
