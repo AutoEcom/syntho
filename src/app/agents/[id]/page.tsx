@@ -8,13 +8,13 @@ import { IndexChart } from "@/components/charts/index-chart";
 import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/layout/page-header";
 import { AgentHeadlineMetrics } from "@/components/agents/headline-metrics";
-import { RiskBudgetBars } from "@/components/metrics/risk-budget-bars";
+import { AgentRiskLimitsPanel } from "@/components/agents/risk-limit-controls";
+import { TopUpCyclesDialog } from "@/components/agents/top-up-cycles-dialog";
 import { RiskFlagList } from "@/components/metrics/risk-flag-list";
 import { StatList, StatRow } from "@/components/metrics/stat-row";
 import { FadeIn } from "@/components/motion/fade-in";
 import { Card } from "@/components/ui/card";
 import { data } from "@/lib/data";
-import type { RiskBudget, RiskSeverity } from "@/lib/types";
 import {
   formatBytes,
   formatCount,
@@ -24,7 +24,6 @@ import {
   formatRatio,
   formatSignedUsd,
   formatSince,
-  formatUsd,
   toneOf,
 } from "@/lib/format";
 
@@ -48,24 +47,18 @@ export async function generateMetadata({
   };
 }
 
-function severityFor(utilisation: number): RiskSeverity {
-  if (utilisation >= 0.9) return "critical";
-  if (utilisation >= 0.7) return "elevated";
-  if (utilisation >= 0.5) return "watch";
-  return "nominal";
-}
-
 export default async function AgentDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [agent, flags, canisters, asOf] = await Promise.all([
+  const [agent, flags, canisters, asOf, metering] = await Promise.all([
     data.getAgent(id),
     data.getRiskFlags(),
     data.getCanisters(),
     data.getAsOf(),
+    data.getMeteringSummary(),
   ]);
 
   if (!agent) notFound();
@@ -74,38 +67,6 @@ export default async function AgentDetailPage({
   const agentFlags = flags.filter((flag) => flag.agentId === agent.id);
   const canister = canisters.find((c) => c.id === compute.canisterId);
   const return30d = performance.pnl30d / agent.deployedCapital;
-
-  const budgets: RiskBudget[] = [
-    {
-      label: "Drawdown budget",
-      utilisation:
-        Math.abs(performance.currentDrawdown) / Math.abs(limits.maxDrawdown),
-      limitLabel: `${formatPercent(limits.maxDrawdown)} halt`,
-      severity: severityFor(
-        Math.abs(performance.currentDrawdown) / Math.abs(limits.maxDrawdown)
-      ),
-    },
-    {
-      label: "Notional budget",
-      utilisation: agent.deployedCapital / limits.maxNotional,
-      limitLabel: `${formatUsd(limits.maxNotional)} cap`,
-      severity: severityFor(agent.deployedCapital / limits.maxNotional),
-    },
-    {
-      label: "Allocation budget",
-      utilisation: agent.allocation / limits.maxAllocation,
-      limitLabel: `${formatPercent(limits.maxAllocation)} of equity`,
-      severity: severityFor(agent.allocation / limits.maxAllocation),
-    },
-    {
-      label: "Cycle runway",
-      utilisation: Math.min(1, 20 / Math.max(compute.runwayDays, 0.1)),
-      limitLabel: "20-day top-up threshold",
-      severity: severityFor(
-        Math.min(1, 20 / Math.max(compute.runwayDays, 0.1))
-      ),
-    },
-  ];
 
   return (
     <Container className="py-8 sm:py-12 lg:py-16">
@@ -171,9 +132,18 @@ export default async function AgentDetailPage({
             <SectionHeading
               eyebrow="Risk limits"
               title="Budget utilisation"
-              description="Each budget is enforced in the canister, not by an operator."
+              description="Each budget is enforced in the canister. Drag a limit to preview utilisation, then apply."
             />
-            <RiskBudgetBars budgets={budgets} className="mt-7" />
+            <AgentRiskLimitsPanel
+              agentName={agent.name}
+              currentDrawdown={performance.currentDrawdown}
+              deployedCapital={agent.deployedCapital}
+              allocation={agent.allocation}
+              maxDrawdown={limits.maxDrawdown}
+              maxNotional={limits.maxNotional}
+              maxAllocation={limits.maxAllocation}
+              runwayDays={compute.runwayDays}
+            />
           </Card>
         </div>
       </FadeIn>
@@ -228,6 +198,18 @@ export default async function AgentDetailPage({
           </Card>
 
           <Card className="min-w-0 p-4 sm:p-6 lg:p-7">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <p className="label-micro">Compute</p>
+              <TopUpCyclesDialog
+                agentName={agent.name}
+                canisterId={compute.canisterId}
+                cycleBalance={compute.cycleBalance}
+                runwayDays={compute.runwayDays}
+                burn24h={compute.cycles24h}
+                usdPerTrillionCycles={metering.usdPerTrillionCycles}
+                xdrPerIcp={metering.xdrPerIcp}
+              />
+            </div>
             <StatList className="mt-4">
               <StatRow
                 label="Cycle balance"
